@@ -7,15 +7,16 @@ const schemaBody = Joi.object({
     .max(30)
     .required(),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    .email({ minDomainSegments: 2, tlds: { allow: false } })
     .required(),
   phone: Joi.string()
     .length(10)
     .pattern(/^[0-9]+$/, 'only numbers')
     .required(),
+  favorite: Joi.boolean().required(),
 })
 
-const schemaId = Joi.number().required()
+const schemaId = Joi.string().required()
 
 const schema = {
   schemaBody,

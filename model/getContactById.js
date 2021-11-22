@@ -1,8 +1,7 @@
-const listContacts = require('./listContacts')
+const Contact = require('../model/contact')
 
-async function getContactById(contactId, list = null) {
-  const contacts = list || (await listContacts())
-  const contact = contacts.filter(contact => contact.id === parseInt(contactId))
+async function getContactById(contactId) {
+  const contact = await Contact.where({ _id: contactId }).findOne()
   return contact
 }
 

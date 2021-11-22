@@ -1,23 +1,20 @@
 const listContacts = require('./listContacts')
-const { checkNewContact, getMaxId, phoneToString } = require('../helpers/functions')
-const path = require('path')
-const fs = require('fs').promises
-const { dbPath } = require('../bin/settings')
-const contactsPath = path.resolve(dbPath)
+const { checkNewContact, phoneToString } = require('../helpers/functions')
 
-async function addContact({ name, email, phone }) {
+const Contact = require('../model/contact')
+
+async function addContact({ name, email, phone, favorite }) {
   const contacts = await listContacts()
-  const id = getMaxId(contacts) + 1
   const phoneString = phoneToString(phone)
-  const newContact = { id, name, email, phone: phoneString }
+  const newContact = { name, email, phone: phoneString, favorite }
 
   try {
     const checkData = checkNewContact(newContact, contacts)
     if (!checkData.result) throw new Error(checkData.message)
-
-    fs.writeFile(contactsPath, JSON.stringify([...contacts, newContact]))
+    const result = await Contact.create(newContact)
+    console.log('result - ', result)
     console.log('contact successfully created')
-    return newContact
+    return result
   } catch (error) {
     console.log('Catch error', error.message)
     return error
