@@ -1,7 +1,7 @@
 const listContacts = require('./listContacts')
 const { checkNewContact, phoneToString } = require('../helpers/functions')
 
-const Contact = require('../model/contact')
+const Contact = require('./db/Contact')
 
 async function addContact({ name, email, phone, favorite }) {
   const contacts = await listContacts()

@@ -1,19 +1,14 @@
-const path = require('path')
-const fs = require('fs').promises
-const { dbPath } = require('../bin/settings')
-const contactsPath = path.resolve(dbPath)
-
-const listContacts = require('./listContacts')
+const Contact = require('./db/Contact')
+const getContactById = require('./getContactById')
 
 async function removeContact(contactId) {
-  const contacts = await listContacts()
-  const filtredContacts = contacts.filter(contact => parseInt(contact.id) !== parseInt(contactId))
-
   try {
-    if (contacts.length === filtredContacts.length) {
+    const contact = await getContactById(contactId)
+    if (!contact) {
       throw new Error('Not found')
     }
-    fs.writeFile(contactsPath, JSON.stringify(filtredContacts))
+    const res = await Contact.remove({ _id: contactId })
+    console.log('res - ', res)
     console.log('Contact with id - ' + contactId + ' removed successfully')
     return { message: null }
   } catch (error) {
