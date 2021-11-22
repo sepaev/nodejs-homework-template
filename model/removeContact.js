@@ -8,8 +8,8 @@ async function removeContact(contactId) {
       throw new Error('Not found')
     }
     const res = await Contact.remove({ _id: contactId })
-    console.log('res - ', res)
-    console.log('Contact with id - ' + contactId + ' removed successfully')
+    console.log('res - ', res) // res -  { deletedCount: 1 }
+    if (res.deletedCount === 1) console.log('Contact _id:' + contactId + ' removed successfuly')
     return { message: null }
   } catch (error) {
     console.log('Catch error', error.message)
