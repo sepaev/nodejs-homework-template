@@ -7,6 +7,7 @@ const {
   addContactController,
   removeContactController,
   updateContactController,
+  updateStatusContactController,
 } = require('../../controller/contacts')
 
 router.get('/', async (_, res) => listContactsController(res))
@@ -18,5 +19,7 @@ router.post('/', async (req, res) => addContactController(req, res))
 router.delete('/:contactId', async (req, res) => removeContactController(req, res))
 
 router.patch('/:contactId', async (req, res) => updateContactController(req, res))
+
+router.patch('/:contactId/favorite/', async (req, res) => updateStatusContactController(req, res))
 
 module.exports = router

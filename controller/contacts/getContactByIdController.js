@@ -1,12 +1,13 @@
 const { getContactById } = require('../../model')
 const { schemaId } = require('../../middlewares/validation/contactValidation')
+const chalk = require('chalk')
 
 async function getContactByIdController(req, res) {
   const { contactId } = req.params
   const { error } = schemaId.validate(contactId)
 
   if (error) {
-    console.log('error - ', error)
+    console.log(chalk.red('error - '), error)
     res.status(400).send({ message: error.message })
     return
   }

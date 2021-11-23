@@ -16,11 +16,13 @@ const schemaBody = Joi.object({
   favorite: Joi.boolean(),
 })
 
+const schemaFavorite = Joi.object({ favorite: Joi.boolean().required() })
 const schemaId = Joi.string().required()
 
 const schema = {
   schemaBody,
   schemaId,
+  schemaFavorite,
 }
 
 module.exports = schema

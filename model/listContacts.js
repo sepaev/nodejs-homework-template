@@ -1,3 +1,4 @@
+const chalk = require('chalk')
 const Contact = require('./db/Contact')
 
 async function listContacts() {
@@ -5,7 +6,7 @@ async function listContacts() {
     const contacts = await Contact.find({})
     return contacts
   } catch (error) {
-    console.log('Catch error', error.message)
+    console.log(chalk.red('Catch error'), error.message)
     return error
   }
 }

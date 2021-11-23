@@ -2,6 +2,7 @@ const listContacts = require('./listContacts')
 const { checkNewContact, phoneToString } = require('../helpers/functions')
 
 const Contact = require('./db/Contact')
+const chalk = require('chalk')
 
 async function addContact({ name, email, phone, favorite = false }) {
   const contacts = await listContacts()
@@ -12,11 +13,10 @@ async function addContact({ name, email, phone, favorite = false }) {
     const checkData = checkNewContact(newContact, contacts)
     if (!checkData.result) throw new Error(checkData.message)
     const result = await Contact.create(newContact)
-    console.log('result - ', result)
-    console.log('contact successfully created')
+    console.log(chalk.keyword('lightblue')('contact successfully created'))
     return result
   } catch (error) {
-    console.log('Catch error', error.message)
+    console.log(chalk.red('Catch error'), error.message)
     return error
   }
 }

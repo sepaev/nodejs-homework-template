@@ -1,5 +1,6 @@
 const { updateContact } = require('../../model')
 const { schemaId, schemaBody } = require('../../middlewares/validation/contactValidation')
+const chalk = require('chalk')
 
 async function updateContactController(req, res) {
   const body = req.body
@@ -8,7 +9,7 @@ async function updateContactController(req, res) {
   if (!error) error = schemaId.validate(contactId).error
 
   if (error) {
-    console.log('error - ', error)
+    console.log(chalk.red('error - '), error)
     res.status(400).send({ message: error.message })
     return
   }
