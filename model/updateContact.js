@@ -3,7 +3,7 @@ const { checkNewContact, phoneToString } = require('../helpers/functions')
 const Contact = require('./db/Contact')
 const getContactById = require('./getContactById')
 
-async function updateContact(id, { name, email, phone, favorite }) {
+async function updateContact(id, { name, email, phone, favorite = false }) {
   const contacts = await listContacts()
   const phoneString = phoneToString(phone)
   const patchedContact = { id, name, email, phone: phoneString, favorite }

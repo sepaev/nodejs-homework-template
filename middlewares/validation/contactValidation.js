@@ -13,7 +13,7 @@ const schemaBody = Joi.object({
     .length(10)
     .pattern(/^[0-9]+$/, 'only numbers')
     .required(),
-  favorite: Joi.boolean().required(),
+  favorite: Joi.boolean(),
 })
 
 const schemaId = Joi.string().required()

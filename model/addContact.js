@@ -3,7 +3,7 @@ const { checkNewContact, phoneToString } = require('../helpers/functions')
 
 const Contact = require('./db/Contact')
 
-async function addContact({ name, email, phone, favorite }) {
+async function addContact({ name, email, phone, favorite = false }) {
   const contacts = await listContacts()
   const phoneString = phoneToString(phone)
   const newContact = { name, email, phone: phoneString, favorite }
