@@ -1,16 +1,12 @@
-const path = require('path')
-const fs = require('fs').promises
-const { dbPath } = require('../bin/settings')
-console.log(' dbPath - ', dbPath)
-const contactsPath = path.resolve(dbPath)
+const chalk = require('chalk')
+const Contact = require('../schemas/contact')
 
 async function listContacts() {
   try {
-    const data = await fs.readFile(contactsPath, 'utf8')
-    const contacts = JSON.parse(data)
+    const contacts = await Contact.find({})
     return contacts
   } catch (error) {
-    console.log('Catch error', error.message)
+    console.log(chalk.red('Catch error'), error.message)
     return error
   }
 }

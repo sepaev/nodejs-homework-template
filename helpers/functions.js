@@ -16,7 +16,6 @@ const checkNewContact = ({ name, email, phone }, contacts, skipId = null) => {
         result = false
       }
       if (contact.email === email) {
-        console.log(contact.id)
         message = 'Error. This email - ' + email + ' already exists'
         result = false
       }
