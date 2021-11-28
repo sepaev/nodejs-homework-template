@@ -1,7 +1,7 @@
 const listContacts = require('./listContacts')
 const { checkNewContact, phoneToString } = require('../helpers/functions')
 
-const Contact = require('./db/Contact')
+const Contact = require('../schemas/contact')
 const chalk = require('chalk')
 
 async function addContact({ name, email, phone, favorite = false }) {

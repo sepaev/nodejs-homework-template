@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const Contact = require('./db/Contact')
+const Contact = require('../schemas/contact')
 const getContactById = require('./getContactById')
 
 async function removeContact(contactId) {

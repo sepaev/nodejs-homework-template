@@ -1,6 +1,6 @@
 const listContacts = require('./listContacts')
 const { checkNewContact, phoneToString } = require('../helpers/functions')
-const Contact = require('./db/Contact')
+const Contact = require('../schemas/contact')
 const getContactById = require('./getContactById')
 const chalk = require('chalk')
 
