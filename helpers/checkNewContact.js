@@ -1,11 +1,3 @@
-const getMaxId = contacts => {
-  let maxId = 0
-  contacts.forEach(({ id }) => {
-    if (id > maxId) maxId = id
-  })
-  return maxId
-}
-
 const checkNewContact = ({ name, email, phone }, contacts, skipId = null) => {
   let result = true
   let message = ''
@@ -28,12 +20,4 @@ const checkNewContact = ({ name, email, phone }, contacts, skipId = null) => {
   return { result, message }
 }
 
-const phoneToString = phone => {
-  return '(' + phone.slice(0, 3) + ') ' + phone.slice(3, 6) + '-' + phone.slice(6, 10)
-}
-
-module.exports = {
-  getMaxId,
-  checkNewContact,
-  phoneToString,
-}
+module.exports = checkNewContact

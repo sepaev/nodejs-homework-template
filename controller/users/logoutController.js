@@ -2,7 +2,7 @@ const { addContact } = require('../../model/users')
 const { schemaBody } = require('../../middlewares/validation/contactValidation')
 const chalk = require('chalk')
 
-async function addContactController(req, res) {
+async function logoutController(req, res) {
   const body = req.body
   const { error } = schemaBody.validate(body)
 
@@ -22,4 +22,4 @@ async function addContactController(req, res) {
     data: { result: newContact },
   })
 }
-module.exports = addContactController
+module.exports = logoutController

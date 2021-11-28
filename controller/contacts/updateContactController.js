@@ -1,4 +1,4 @@
-const { updateContact } = require('../../model')
+const { updateContact } = require('../../model/users')
 const { schemaId, schemaBody } = require('../../middlewares/validation/contactValidation')
 const chalk = require('chalk')
 

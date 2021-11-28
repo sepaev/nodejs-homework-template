@@ -1,4 +1,4 @@
-const { removeContact } = require('../../model')
+const { removeContact } = require('../../model/users')
 const { schemaId } = require('../../middlewares/validation/contactValidation')
 const chalk = require('chalk')
 

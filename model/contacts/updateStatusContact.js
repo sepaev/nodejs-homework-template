@@ -1,4 +1,4 @@
-const Contact = require('../schemas/contact')
+const Contact = require('../../schemas/contact')
 const getContactById = require('./getContactById')
 const chalk = require('chalk')
 

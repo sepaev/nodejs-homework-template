@@ -1,4 +1,4 @@
-const { updateStatusContact } = require('../../model')
+const { updateStatusContact } = require('../../model/users')
 const { schemaFavorite } = require('../../middlewares/validation/contactValidation')
 const chalk = require('chalk')
 

@@ -1,5 +1,5 @@
 const chalk = require('chalk')
-const Contact = require('../schemas/contact')
+const Contact = require('../../schemas/contact')
 
 async function listContacts() {
   try {

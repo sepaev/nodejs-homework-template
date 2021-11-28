@@ -2,7 +2,7 @@ const { getContactById } = require('../../model/users')
 const { schemaId } = require('../../middlewares/validation/contactValidation')
 const chalk = require('chalk')
 
-async function getContactByIdController(req, res) {
+async function getCurrentController(req, res) {
   const { contactId } = req.params
   const { error } = schemaId.validate(contactId)
 
@@ -23,4 +23,4 @@ async function getContactByIdController(req, res) {
   })
 }
 
-module.exports = getContactByIdController
+module.exports = getCurrentController
