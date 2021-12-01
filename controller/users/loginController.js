@@ -1,25 +1,20 @@
-const { addContact } = require('../../model/users')
-const { schemaBody } = require('../../middlewares/validation/contactValidation')
-const chalk = require('chalk')
+const { login } = require('../../model/users')
+const { Unauthorized, BadRequest } = require('http-errors')
+const schemaBody = require('../../middlewares/validation/userValidation')
 
 async function loginController(req, res) {
   const body = req.body
   const { error } = schemaBody.validate(body)
 
-  if (error) {
-    console.log(chalk.red('error - '), error)
-    res.status(400).send({ message: error.message })
-    return
+  try {
+    if (error) throw new BadRequest({ message: error.message })
+
+    const response = await login(body)
+    if (response.message) throw new Unauthorized(response.message)
+    const { token, user } = response
+    res.status(200).send({ token, user })
+  } catch ({ status, message }) {
+    res.status(status).send({ message })
   }
-  const newContact = await addContact(body)
-  if (newContact.message) {
-    res.status(400).send({ message: newContact.message })
-    return
-  }
-  res.json({
-    status: 'Created',
-    code: 201,
-    data: { result: newContact },
-  })
 }
 module.exports = loginController

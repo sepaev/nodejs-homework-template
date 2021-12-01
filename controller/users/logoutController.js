@@ -1,25 +1,19 @@
-const { addContact } = require('../../model/users')
+const { logout } = require('../../model/users')
+const { Unauthorized, BadRequest } = require('http-errors')
 const { schemaBody } = require('../../middlewares/validation/contactValidation')
-const chalk = require('chalk')
 
 async function logoutController(req, res) {
   const body = req.body
   const { error } = schemaBody.validate(body)
 
-  if (error) {
-    console.log(chalk.red('error - '), error)
-    res.status(400).send({ message: error.message })
-    return
+  try {
+    if (error) throw new BadRequest({ message: error.message })
+
+    const response = await logout(body)
+    if (response.message) throw new Unauthorized(response.message)
+    res.status(204)
+  } catch ({ status, message }) {
+    res.status(status).send({ message })
   }
-  const newContact = await addContact(body)
-  if (newContact.message) {
-    res.status(400).send({ message: newContact.message })
-    return
-  }
-  res.json({
-    status: 'Created',
-    code: 201,
-    data: { result: newContact },
-  })
 }
 module.exports = logoutController

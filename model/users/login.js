@@ -1,23 +1,21 @@
-// const listContacts = require('./listContacts')
-// const { checkNewContact, phoneToString } = require('../helpers/functions')
-
-// const Contact = require('../schemas/contact')
-// const chalk = require('chalk')
+const jwt = require('jsonwebtoken')
+const User = require('../../schemas/user')
+const chalk = require('chalk')
+const Unautorized = require('http-errors')
 
 async function login({ email, password }) {
-  // const contacts = await listContacts()
-  // const phoneString = phoneToString(phone)
-  // const newContact = { name, email, phone: phoneString, favorite }
-  // try {
-  //   const checkData = checkNewContact(newContact, contacts)
-  //   if (!checkData.result) throw new Error(checkData.message)
-  //   const result = await Contact.create(newContact)
-  //   console.log(chalk.keyword('lightblue')('contact successfully created'))
-  //   return result
-  // } catch (error) {
-  //   console.log(chalk.red('Catch error'), error.message)
-  //   return error
-  // }
+  const user = await User.findOne({ email })
+  console.log('user -', user)
+  try {
+    if (!user || !user.comparePassword(password)) throw new Unautorized('Email or password is wrong')
+    const token = jwt.sign({ id: user._id }, process.env.SECRET)
+    console.log('here')
+    console.log(await User.findByIdAndUpdate({ _id: user._id }, { token: token }))
+    return { token, user: { email: user.email, subscription: user.subscription } }
+  } catch (error) {
+    console.log(chalk.red('Catch error'), error.message)
+    return error
+  }
 }
 
 module.exports = login
