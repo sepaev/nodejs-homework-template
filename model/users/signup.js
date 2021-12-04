@@ -1,19 +1,17 @@
-const { checkNewUser } = require('../../helpers')
 const User = require('../../schemas/user')
 const chalk = require('chalk')
+const { Conflict } = require('http-errors')
 
 async function signup({ email, password }) {
   const users = await User.find({})
-  try {
-    const checkData = checkNewUser(email, users)
-    if (!checkData.result) throw new Error(checkData.message)
-    const result = await User.create({ email, password })
-    console.log(chalk.keyword('lightblue')('user successfully created'))
-    return { email: result.email, subscription: result.subscription }
-  } catch (error) {
-    console.log(chalk.red('Catch error'), error.message)
-    return error
-  }
+  const conflictMessage = users.reduce(
+    (message, user) => (message = user.email === email ? 'Email in use' : message),
+    '',
+  )
+  if (conflictMessage) throw new Conflict(conflictMessage)
+  const newUser = await User.create({ email, password })
+  console.log(chalk.keyword('lightblue')('user successfully created'))
+  return { user: { email: newUser.email, subscription: newUser.subscription } }
 }
 
 module.exports = signup

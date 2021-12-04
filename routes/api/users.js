@@ -1,14 +1,16 @@
 const express = require('express')
 const router = express.Router()
+const authMiddleware = require('../../middlewares/auth/authMiddleware')
+const errorCatcher = require('../../middlewares/catch/errorCatcher')
 
 const { signupController, loginController, logoutController, getCurrentController } = require('../../controller/users')
 
-router.post('/signup', async (req, res) => signupController(req, res))
+router.post('/signup', errorCatcher(signupController))
 
-router.post('/login', async (req, res) => loginController(req, res))
+router.post('/login', errorCatcher(loginController))
 
-router.post('/logout', async (req, res) => logoutController(req, res))
+router.post('/logout', authMiddleware, errorCatcher(logoutController))
 
-router.get('/current', async (req, res) => getCurrentController(req, res))
+router.get('/current', authMiddleware, errorCatcher(getCurrentController))
 
 module.exports = router
