@@ -1,3 +1,5 @@
+const { Conflict } = require('http-errors')
+
 const checkNewContact = ({ name, email, phone }, contacts, skipId = null) => {
   let result = true
   let message = ''
@@ -17,7 +19,7 @@ const checkNewContact = ({ name, email, phone }, contacts, skipId = null) => {
       }
     }
   })
-  return { result, message }
+  if (!result) throw new Conflict({ message })
 }
 
 module.exports = checkNewContact
