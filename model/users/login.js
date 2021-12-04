@@ -8,6 +8,7 @@ async function login({ email, password }) {
   const token = jwt.sign({ id: user._id }, process.env.SECRET)
 
   await User.findByIdAndUpdate({ _id: user._id }, { token: token })
+  console.log('login success - token', token)
   return { token, user: { email: user.email, subscription: user.subscription } }
 }
 
