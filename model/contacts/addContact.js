@@ -4,10 +4,10 @@ const { checkNewContact, phoneToString } = require('../../helpers')
 const Contact = require('../../schemas/contact')
 const chalk = require('chalk')
 
-async function addContact({ name, email, phone, favorite = false }) {
+async function addContact({ name, email, phone, favorite = false }, owner) {
   const contacts = await listContacts()
   const phoneString = phoneToString(phone)
-  const newContact = { name, email, phone: phoneString, favorite }
+  const newContact = { name, email, phone: phoneString, favorite, owner }
 
   checkNewContact(newContact, contacts)
 

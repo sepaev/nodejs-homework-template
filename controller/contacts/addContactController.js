@@ -7,7 +7,7 @@ async function addContactController(req, res) {
   const { error } = schemaBody.validate(body)
   if (error) throw new BadRequest({ message: error.message })
 
-  const newContact = await addContact(body)
+  const newContact = await addContact(body, req.user._id)
   res.status(201).send({ result: newContact })
 }
 module.exports = addContactController
