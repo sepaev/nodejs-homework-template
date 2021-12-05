@@ -1,6 +1,6 @@
 const Contact = require('../../schemas/contact')
 
-async function listContacts(userID, favorite, pagination) {
+async function listContacts(userID, favorite, pagination = {}) {
   const params = { owner: userID }
   console.log('params', params)
   console.log('pagination', pagination)

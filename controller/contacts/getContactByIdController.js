@@ -8,7 +8,7 @@ async function getContactByIdController(req, res) {
 
   if (error) throw new BadRequest({ message: error.message })
 
-  const contact = await getContactById(contactId)
+  const contact = await getContactById(contactId, req.user._id)
 
   res.status(200).send({ result: contact })
 }

@@ -2,9 +2,11 @@ const chalk = require('chalk')
 const { NotFound } = require('http-errors')
 const Contact = require('../../schemas/contact')
 
-async function removeContact(contactId) {
+async function removeContact(contactId, ownerId) {
   try {
-    await Contact.remove({ _id: contactId })
+    const { deletedCount } = await Contact.deleteOne({ _id: contactId, owner: ownerId })
+    console.log('deletedCount', deletedCount)
+    if (!deletedCount) throw new NotFound('Not found')
     console.log(chalk.keyword('lightblue')('Contact _id:' + contactId + ' removed successfuly'))
     return true
   } catch (error) {

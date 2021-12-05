@@ -7,7 +7,7 @@ async function removeContactController(req, res) {
   const { error } = schemaId.validate(contactId)
   if (error) throw new BadRequest({ message: error.message })
 
-  const result = await removeContact(contactId)
+  const result = await removeContact(contactId, req.user._id)
   if (result) res.status(200).send({ message: 'contact deleted' })
 }
 
