@@ -4,13 +4,14 @@ const Contact = require('../../schemas/contact')
 const chalk = require('chalk')
 const { NotFound } = require('http-errors')
 
-async function updateContact(id, { name, email, phone, favorite = false }) {
+async function updateContact(id, { name, email, phone, favorite = false }, ownerID) {
   const contacts = await listContacts()
   const patchedContact = { id, name, email, phone: phoneToString(phone), favorite }
   checkNewContact(patchedContact, contacts, id)
   try {
-    const res = await Contact.updateOne({ _id: id }, patchedContact)
-    if (res.modifiedCount === 1) console.log(chalk.keyword('lightblue')('contact successfully edited'))
+    const { modifiedCount } = await Contact.updateOne({ _id: id, owner: ownerID }, patchedContact)
+    if (!modifiedCount) throw new Error()
+    console.log(chalk.keyword('lightblue')('contact successfully edited'))
     return patchedContact
   } catch (error) {
     throw new NotFound('Not found')

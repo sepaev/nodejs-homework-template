@@ -9,7 +9,7 @@ async function updateContactController(req, res) {
   if (!error) error = schemaId.validate(contactId).error
 
   if (error) throw new BadRequest({ message: error.message })
-  const patchedContact = await updateContact(contactId, body)
+  const patchedContact = await updateContact(contactId, body, req.user._id)
 
   res.status(200).send({ result: patchedContact })
 }
