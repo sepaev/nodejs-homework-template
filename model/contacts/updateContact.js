@@ -1,11 +1,11 @@
-const listContacts = require('./listContacts')
 const { checkNewContact, phoneToString } = require('../../helpers')
 const Contact = require('../../schemas/contact')
 const chalk = require('chalk')
 const { NotFound } = require('http-errors')
 
 async function updateContact(id, { name, email, phone, favorite = false }, ownerID) {
-  const contacts = await listContacts()
+  const contacts = await Contact.find({ _id: { $nin: id }, owner: { $in: ownerID } })
+
   const patchedContact = { id, name, email, phone: phoneToString(phone), favorite }
   checkNewContact(patchedContact, contacts, id)
   try {

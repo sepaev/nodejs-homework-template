@@ -1,7 +1,7 @@
 const Contact = require('../../schemas/contact')
 const { myCustomLabels } = require('../../bin/settingsDB')
 
-async function listContacts(userID, { favorite, page = 1, limit = 10 }) {
+async function listContacts(userID, { favorite = null, page = 1, limit = 10 }) {
   const query = { owner: userID }
   const options = {
     select: 'name email phone favorite',
@@ -12,7 +12,7 @@ async function listContacts(userID, { favorite, page = 1, limit = 10 }) {
     limit,
     customLabels: myCustomLabels,
   }
-  if (favorite) query.favorite = favorite
+  if (favorite === true || favorite === false) query.favorite = favorite
   return await Contact.paginate(query, options)
 }
 
