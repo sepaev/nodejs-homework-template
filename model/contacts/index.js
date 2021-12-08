@@ -7,8 +7,8 @@ const updateStatusContact = require('./updateStatusContact')
 
 module.exports = {
   addContact,
-  listContacts,
   getContactById,
+  listContacts,
   removeContact,
   updateContact,
   updateStatusContact,

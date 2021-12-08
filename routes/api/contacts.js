@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const authMiddleware = require('../../middlewares/auth/authMiddleware')
+const errorCatcher = require('../../middlewares/catch/errorCatcher')
 
 const {
   listContactsController,
@@ -10,16 +12,16 @@ const {
   updateStatusContactController,
 } = require('../../controller/contacts')
 
-router.get('/', async (_, res) => listContactsController(res))
+router.get('/', authMiddleware, errorCatcher(listContactsController))
 
-router.get('/:contactId', async (req, res) => getContactByIdController(req, res))
+router.get('/:contactId', authMiddleware, errorCatcher(getContactByIdController))
 
-router.post('/', async (req, res) => addContactController(req, res))
+router.post('/', authMiddleware, errorCatcher(addContactController))
 
-router.delete('/:contactId', async (req, res) => removeContactController(req, res))
+router.delete('/:contactId', authMiddleware, errorCatcher(removeContactController))
 
-router.patch('/:contactId', async (req, res) => updateContactController(req, res))
+router.patch('/:contactId', authMiddleware, errorCatcher(updateContactController))
 
-router.patch('/:contactId/favorite/', async (req, res) => updateStatusContactController(req, res))
+router.patch('/:contactId/favorite/', authMiddleware, errorCatcher(updateStatusContactController))
 
 module.exports = router

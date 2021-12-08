@@ -1,26 +1,14 @@
-const { removeContact } = require('../../model')
+const { removeContact } = require('../../model/contacts')
 const { schemaId } = require('../../middlewares/validation/contactValidation')
-const chalk = require('chalk')
+const { BadRequest } = require('http-errors')
 
 async function removeContactController(req, res) {
   const { contactId } = req.params
-  let { error } = schemaId.validate(contactId)
+  const { error } = schemaId.validate(contactId)
+  if (error) throw new BadRequest({ message: error.message })
 
-  if (error) {
-    console.log(chalk.red('error - '), error)
-    res.status(400).send({ message: error.message })
-    return
-  }
-  error = await removeContact(contactId)
-  if (error.message) {
-    res.status(404).send({ message: error.message })
-    return
-  }
-  res.json({
-    status: 'Success',
-    code: 200,
-    data: { message: 'contact deleted' },
-  })
+  const result = await removeContact(contactId, req.user._id)
+  if (result) res.status(200).send({ message: 'contact deleted' })
 }
 
 module.exports = removeContactController

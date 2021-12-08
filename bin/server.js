@@ -8,7 +8,7 @@ const { DB_HOST, PORT = 3000 } = process.env
 mongoose
   .connect(DB_HOST)
   .then(() => {
-    console.log(chalk.keyword('gold')('Database connection successful'))
+    console.log(chalk.keyword('lightblue')('Database connection successful'))
 
     app.listen(PORT, err => {
       if (err) {
