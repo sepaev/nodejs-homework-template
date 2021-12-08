@@ -1,6 +1,7 @@
 const User = require('../../schemas/user')
 const chalk = require('chalk')
 const { Conflict } = require('http-errors')
+const gravatar = require('gravatar')
 
 async function signup({ email, password }) {
   const users = await User.find({})
@@ -9,9 +10,12 @@ async function signup({ email, password }) {
     '',
   )
   if (conflictMessage) throw new Conflict(conflictMessage)
-  const newUser = await User.create({ email, password })
+  const avatarUrl = gravatar.url(email)
+  const newUser = await User.create({ email, password, avatarUrl })
   console.log(chalk.keyword('lightblue')('user successfully created'))
-  return { user: { email: newUser.email, subscription: newUser.subscription } }
+  return {
+    user: { _id: newUser._id, email: newUser.email, subscription: newUser.subscription, avatarUrl: newUser.avatarUrl },
+  }
 }
 
 module.exports = signup

@@ -1,6 +1,6 @@
 const { signup } = require('../../model/users')
 const { BadRequest } = require('http-errors')
-const schemaBody = require('../../middlewares/validation/userValidation')
+const { schemaBody } = require('../../middlewares/validation/userValidation')
 
 async function signupController(req, res) {
   const body = req.body

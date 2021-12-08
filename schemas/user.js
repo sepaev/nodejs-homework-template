@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose')
-// const { SECRET } = process.env
 const bcrypt = require('bcrypt')
 
 const userSchema = Schema(
@@ -21,6 +20,10 @@ const userSchema = Schema(
     token: {
       type: String,
       default: null,
+    },
+    avatarUrl: {
+      type: String,
+      required: true,
     },
   },
   { versionKey: false, timestamps: true },
