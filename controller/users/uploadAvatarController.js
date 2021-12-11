@@ -1,24 +1,26 @@
-// const { updateUser } = require('../../model/users')
-// const { schemaSubscription, schemaEmail } = require('../../middlewares/validation/userValidation')
-// const { BadRequest, Conflict } = require('http-errors')
+const path = require('path')
+const fs = require('fs/promises')
+const { updateAvatar } = require('../../model/users')
+const { resizeImage } = require('../../helpers/')
+const { PORT, PUBLIC_DIR, AVATARS_DIR } = process.env
 
 async function uploadAvatarController(req, res) {
-  // let key, value, error
-  // const { _id } = req.user
-  // if (req.query.subscription) {
-  //   key = 'subscription'
-  //   value = req.query.subscription.toLowerCase()
-  //   error = schemaSubscription.validate(value).error
-  // }
-  // if (req.query.email) {
-  //   key = 'email'
-  //   value = req.query.email
-  //   error = schemaEmail.validate(value).error
-  // }
-  // if (error) throw new BadRequest(error.message)
-  // if (req.user[key] === value) throw new Conflict("No changes '" + key + "' value is already '" + value + "'")
-  // const patchedUser = await updateUser(_id, key, value)
-  // res.status(200).send({ result: patchedUser })
+  const { path: tempUpload, originalname } = req.file
+  const [filename, exstension] = originalname.split('.')
+  const userID = req.user._id
+  const HOST = req.host
+
+  const avatarName = filename + '_' + userID + '.' + exstension
+  try {
+    const resultUpload = path.join(__dirname, '../../', PUBLIC_DIR, AVATARS_DIR, avatarName)
+    await fs.rename(tempUpload, resultUpload)
+    const avatarUrl = '/' + AVATARS_DIR + '/' + avatarName
+    await resizeImage(path.join(PUBLIC_DIR, avatarUrl))
+    await updateAvatar(userID, avatarUrl)
+    res.status(200).json({ avatarUrl: `${HOST}:${PORT}${avatarUrl}` })
+  } catch (error) {
+    await fs.unlink(tempUpload)
+  }
 }
 
 module.exports = uploadAvatarController

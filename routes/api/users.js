@@ -13,6 +13,8 @@ const {
   uploadAvatarController,
 } = require('../../controller/users')
 
+router.patch('/avatars', authMiddleware, uploadMiddleware.single('avatar'), errorCatcher(uploadAvatarController))
+
 router.post('/signup', errorCatcher(signupController))
 
 router.post('/login', errorCatcher(loginController))
@@ -20,8 +22,6 @@ router.post('/login', errorCatcher(loginController))
 router.post('/logout', authMiddleware, errorCatcher(logoutController))
 
 router.get('/current', authMiddleware, errorCatcher(getCurrentController))
-
-router.patch('/avatars', authMiddleware, uploadMiddleware.single('avatar'), errorCatcher(uploadAvatarController))
 
 router.patch('/', authMiddleware, errorCatcher(patchUserController))
 

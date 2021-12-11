@@ -1,4 +1,4 @@
-const checkNewUser = (email, users) => {
+const isValidNewUser = (email, users) => {
   let result = true
   let message = ''
   users.forEach(user => {
@@ -10,4 +10,4 @@ const checkNewUser = (email, users) => {
   return { result, message }
 }
 
-module.exports = checkNewUser
+module.exports = isValidNewUser
