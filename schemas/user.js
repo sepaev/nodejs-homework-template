@@ -1,8 +1,10 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const userSchema = Schema(
   {
+    _id: { type: String, required: true, unique: true, index: true, default: Types.ObjectId },
     password: {
       type: String,
       required: [true, 'Password is required'],
@@ -19,7 +21,9 @@ const userSchema = Schema(
     },
     token: {
       type: String,
-      default: null,
+      default: ({ _id }) => {
+        return jwt.sign({ id: _id }, process.env.SECRET)
+      },
     },
     avatarUrl: {
       type: String,
