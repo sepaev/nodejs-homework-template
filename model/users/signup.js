@@ -5,6 +5,7 @@ const gravatar = require('gravatar')
 
 async function signup({ email, password }) {
   const users = await User.find({})
+  console.log('users - ', users)
   const conflictMessage = users.reduce(
     (message, user) => (message = user.email === email ? 'Email in use' : message),
     '',

@@ -1,10 +1,9 @@
-const { Schema, model, Types } = require('mongoose')
+const { Schema, model } = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const userSchema = Schema(
   {
-    _id: { type: String, required: true, unique: true, index: true, default: Types.ObjectId },
     password: {
       type: String,
       required: [true, 'Password is required'],
