@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
-// const { SECRET } = process.env
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const userSchema = Schema(
   {
@@ -20,7 +20,13 @@ const userSchema = Schema(
     },
     token: {
       type: String,
-      default: null,
+      default: ({ _id }) => {
+        return jwt.sign({ id: _id }, process.env.SECRET)
+      },
+    },
+    avatarUrl: {
+      type: String,
+      required: true,
     },
   },
   { versionKey: false, timestamps: true },
