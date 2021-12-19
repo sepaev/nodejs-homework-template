@@ -3,7 +3,7 @@ const chalk = require('chalk')
 const { Conflict } = require('http-errors')
 const gravatar = require('gravatar')
 
-async function signup({ email, password, verificationToken }) {
+async function signup(email, password, verificationToken) {
   if (await User.findOne({ email })) throw new Conflict('Email in use')
   const avatarUrl = gravatar.url(email)
   const newUser = await User.create({ email, password, avatarUrl, verificationToken })

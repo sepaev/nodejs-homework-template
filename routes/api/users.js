@@ -7,9 +7,10 @@ const uploadMiddleware = require('../../middlewares/fs/uploadMiddleware')
 const {
   signupController,
   loginController,
+  renewEmailTokenController,
   logoutController,
   getCurrentController,
-  emailVerificationController,
+  verifyEmailTokenController,
   patchUserController,
   uploadAvatarController,
 } = require('../../controller/users')
@@ -22,7 +23,9 @@ router.post('/logout', authMiddleware, errorCatcher(logoutController))
 
 router.get('/current', authMiddleware, errorCatcher(getCurrentController))
 
-router.get('/verify/:verificationToken', errorCatcher(emailVerificationController))
+router.post('/verify', errorCatcher(renewEmailTokenController))
+
+router.get('/verify/:verificationToken', errorCatcher(verifyEmailTokenController))
 
 router.patch('/', authMiddleware, errorCatcher(patchUserController))
 

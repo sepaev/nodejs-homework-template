@@ -2,7 +2,7 @@ const { verifyEmailToken } = require('../../model/users')
 const { BadRequest } = require('http-errors')
 const schemaVerificationToken = require('../../middlewares/validation/verificationTokenValidation')
 
-async function emailVerificationController(req, res) {
+async function verifyTargetEmailController(req, res) {
   const { verificationToken } = req.params
   const { error } = schemaVerificationToken.validate(verificationToken)
   if (error) throw new BadRequest(error.message)
@@ -13,4 +13,4 @@ async function emailVerificationController(req, res) {
   })
 }
 
-module.exports = emailVerificationController
+module.exports = verifyTargetEmailController
