@@ -9,6 +9,7 @@ const {
   loginController,
   logoutController,
   getCurrentController,
+  emailVerificationController,
   patchUserController,
   uploadAvatarController,
 } = require('../../controller/users')
@@ -20,6 +21,8 @@ router.post('/login', errorCatcher(loginController))
 router.post('/logout', authMiddleware, errorCatcher(logoutController))
 
 router.get('/current', authMiddleware, errorCatcher(getCurrentController))
+
+router.get('/verify/:verificationToken', errorCatcher(emailVerificationController))
 
 router.patch('/', authMiddleware, errorCatcher(patchUserController))
 

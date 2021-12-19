@@ -24,10 +24,12 @@ const userSchema = Schema(
         return jwt.sign({ id: _id }, process.env.SECRET)
       },
     },
-    avatarUrl: {
+    verificationToken: {
       type: String,
-      required: true,
+      required: [true, 'Verify token is required'],
     },
+    verify: { type: Boolean, default: false },
+    avatarUrl: { type: String, required: true },
   },
   { versionKey: false, timestamps: true },
 )
